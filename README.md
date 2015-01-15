@@ -22,7 +22,9 @@ let conn_uri = "postgres://postgres:password@localhost:5555";
 	
 let conn = Connection::connect(conn_uri, &SslMode::None)
             .unwrap();
-            
+// string representing prepared statement
+let preparedSqlString = "SELECT id, name, time_created, data FROM person WHERE id = $1";
+    
 // Then use query_map! macro to map a result set to a vec of "Person"s
 for person in query_map!(conn, preparedSqlString, &[&1],
 	Person { id, name, time_created, data } // The struct name and fields within the struct
