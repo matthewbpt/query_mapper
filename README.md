@@ -18,7 +18,7 @@ struct Person {
 }
 
 // First create a connection
-let conn_uri = "postgres://postgres:skid555@localhost:5555";
+let conn_uri = "postgres://postgres:password@localhost:5555";
 	
 let conn = Connection::connect(conn_uri, &SslMode::None)
             .unwrap();
