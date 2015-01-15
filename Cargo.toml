@@ -1,0 +1,10 @@
+
+[package]
+
+name = "query_mapper"
+version = "0.0.1"
+authors = ["matthew <matthewbpt@gmail.com>"]
+
+[dependencies]
+postgres = "0.4.6"
+
