@@ -4,6 +4,7 @@ extern crate time;
 #[macro_use]
 extern crate query_mapper;
 
+use std::fmt;
 use time::Timespec;
 
 use postgres::{Connection, SslMode};
@@ -13,6 +14,12 @@ struct Person {
     name: String,
     time_created: Timespec,
     data: Option<Vec<u8>>
+}
+
+impl fmt::Show for Person {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Person {{ id: {}, name: {}, time_created: {:?}, data: {:?} }}", self.id, self.name, self.time_created, self.data)
+    }
 }
 
 fn main() {    
@@ -45,8 +52,25 @@ fn main() {
 	
 	let conn = Connection::connect(conn_uri, &SslMode::None)
             .unwrap();
+
+	let prepared_sql_string = "SELECT id, name, time_created, data FROM person";
+
+	for person in query_map!(conn, prepared_sql_string, &[],
+		Person { id, name, time_created, data } // The struct name and fields within the struct
+		).unwrap().iter() {
+		println!("{:?}", person)
+	}
 	
-	for person in query_map!(conn, "SELECT id, name, time_created, data FROM person WHERE id = $1", &[&2], Person, id, name, time_created, data).iter() {
-		println!("id: {}, name: {}", person.id, person.name)
+	let result = query_map!(conn, prepared_sql_string, &[], 
+		Person { id => "id", name => "name", time_created => "time_created", data => "data" }
+		);
+	
+	match result {
+		Ok(r) => {
+			for person in r.iter() {
+				println!("{:?}", person);
+			}
+		},
+		Err(m) => println!("{:?}", m),
 	}	
 }
