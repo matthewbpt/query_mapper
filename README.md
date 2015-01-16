@@ -32,11 +32,11 @@ let result = query_map!(conn, prepared_sql_string, &[&2],
 // iterate through resultset and print each row
 match result {
     Ok(r) => {
-        for person in r.iter() {
-            println!("id: {}, name: {}", person.id, person.name);
-    }
-},
-    Err(m) => println!("{:?}", m),
+            for person in r.iter() {
+                println!("id: {}, name: {}", person.id, person.name);
+        }
+    },
+        Err(m) => println!("{:?}", m),
 };
 
 let another_prepared_sql_string = "SELECT person_id, full_name FROM person WHERE id = $1";
