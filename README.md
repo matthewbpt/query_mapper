@@ -1,4 +1,4 @@
-# query_mapper for Rust
+# query_mapper for Rust [![Build Status](https://travis-ci.org/matthewbpt/query_mapper.svg?branch=master)](https://travis-ci.org/matthewbpt/query_mapper)
 
 This work in progress library allows you to run SQL queries against a postgres database and have the result mapped to a vector of a struct automatically. 
 The query_map! macro handles mapping between columns in the query and fields in the struct.
@@ -36,7 +36,7 @@ match result {
                 println!("id: {}, name: {}", person.id, person.name);
         }
     },
-        Err(m) => println!("{:?}", m),
+    Err(m) => println!("{:?}", m),
 };
 
 let another_prepared_sql_string = "SELECT person_id, full_name FROM person WHERE id = $1";
